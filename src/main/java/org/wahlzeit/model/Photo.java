@@ -88,6 +88,11 @@ public class Photo extends DataObject {
 	 * 
 	 */
 	protected long creationTime = System.currentTimeMillis();
+
+	/**
+	 *
+	 */
+	public Location location;
 	
 	/**
 	 * 
@@ -122,7 +127,21 @@ public class Photo extends DataObject {
 	public String getIdAsString() {
 		return String.valueOf(id.asInt());
 	}
-	
+
+	/**
+	 * @methodtype get
+	 */
+	public Location getLocation() {
+		return location;
+	}
+
+	/**
+	 * @methodtype set
+	 */
+	public void setLocation(Location location) {
+		this.location = location;
+	}
+
 	/**
 	 * 
 	 */
@@ -193,9 +212,9 @@ public class Photo extends DataObject {
 	public int getOwnerId() {
 		return ownerId;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @methodtype set
 	 */
 	public void setOwnerId(int newId) {

@@ -17,9 +17,8 @@ services:
       POSTGRES_PASSWORD: wahlzeit
     ports:
       - 5432:5432
-  # Uncomment for persistence independent of container
-  # volumes:
-  #   - "./pgdata:/var/lib/postgresql/data"
+    volumes:
+      - "./pgdata:/var/lib/postgresql/data"
   adminer:
     image: adminer
     restart: "no"
