@@ -18,13 +18,6 @@ public class Location {
     }
 
     /**
-     * @methodtype set
-     */
-    public void setCoordinate(Coordinate coordinate) {
-        this.coordinate = coordinate;
-    }
-
-    /**
      * @methodtype constructor
      * @param coordinate
      */
