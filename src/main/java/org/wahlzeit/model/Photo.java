@@ -93,16 +93,7 @@ public class Photo extends DataObject {
 	 *
 	 */
 	public Location location;
-
-	/**
-	 *
-	 */
-	public Photo(Location location) {
-		this.location = location;
-		id = PhotoId.getNextId();
-		incWriteCount();
-	}
-
+	
 	/**
 	 * 
 	 */

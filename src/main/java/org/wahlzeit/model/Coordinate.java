@@ -8,9 +8,9 @@ public class Coordinate {
     /**
      * cartesian coordinates
      */
-    private double x;
-    private double y;
-    private double z;
+    public double x;
+    public double y;
+    public double z;
 
 
     public double getX() {
