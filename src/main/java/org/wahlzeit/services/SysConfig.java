@@ -90,6 +90,7 @@ public class SysConfig extends AbstractConfig {
 	 */
 	public SysConfig() {
 		this("", "localhost");
+
 	}
 	
 	/**
@@ -108,7 +109,9 @@ public class SysConfig extends AbstractConfig {
 		photosDir = new Directory(rootDir, "data" + File.separator + "photos");
 		backupDir = new Directory(rootDir, "data" + File.separator + "backup");
 		tempDir = new Directory(rootDir, "data" + File.separator + "temp");
-		
+
+		System.out.println(photosDir.asString());
+
 		// Database connection
 		doSetValue(SysConfig.DB_DRIVER, "org.postgresql.Driver");
 		doSetValue(SysConfig.DB_CONNECTION, "jdbc:postgresql://" + dbHostName + ":5432/wahlzeit");

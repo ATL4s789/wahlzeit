@@ -145,13 +145,6 @@ public class Photo extends DataObject {
 	}
 
 	/**
-	 * @methodtype set
-	 */
-	public void setLocation(Location location) {
-		this.location = location;
-	}
-
-	/**
 	 * 
 	 */
 	public void readFrom(ResultSet rset) throws SQLException {
@@ -177,6 +170,9 @@ public class Photo extends DataObject {
 		creationTime = rset.getLong("creation_time");
 
 		maxPhotoSize = PhotoSize.getFromWidthHeight(width, height);
+
+		location = new Location(new Coordinate(rset.getDouble("x_coordinate"), rset.getDouble("y_coordinate"),
+				rset.getDouble("z_coordinate")));
 	}
 	
 	/**
@@ -196,7 +192,10 @@ public class Photo extends DataObject {
 		rset.updateInt("status", status.asInt());
 		rset.updateInt("praise_sum", praiseSum);
 		rset.updateInt("no_votes", noVotes);
-		rset.updateLong("creation_time", creationTime);		
+		rset.updateLong("creation_time", creationTime);
+		rset.updateDouble("x_coordinate", location.getCoordinate().getX());
+		rset.updateDouble("y_coordinate", location.getCoordinate().getY());
+		rset.updateDouble("z_coordinate", location.getCoordinate().getZ());
 	}
 
 	/**
