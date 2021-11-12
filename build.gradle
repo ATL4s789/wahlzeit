@@ -6,6 +6,7 @@ plugins {
 
 repositories {
     jcenter()
+    mavenCentral()
 }
 
 ext {
@@ -21,7 +22,8 @@ sourceSets {
 }
 
 dependencies {
-    providedCompile 'javax.servlet:javax.servlet-api:4.0.1' 
+    implementation 'org.mockito:mockito-all:1.10.19'
+    providedCompile 'javax.servlet:javax.servlet-api:4.0.1'
     
     implementation 'org.postgresql:postgresql:9.3-1104-jdbc41'    
     implementation 'log4j:log4j:1.2.17'

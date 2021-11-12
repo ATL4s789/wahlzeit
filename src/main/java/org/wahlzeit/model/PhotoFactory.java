@@ -27,7 +27,6 @@ public class PhotoFactory {
 			SysLog.logSysInfo("setting generic PhotoFactory");
 			setInstance(new PhotoFactory());
 		}
-		
 		return instance;
 	}
 	
@@ -38,7 +37,6 @@ public class PhotoFactory {
 		if (instance != null) {
 			throw new IllegalStateException("attempt to initialize PhotoFactory twice");
 		}
-		
 		instance = photoFactory;
 	}
 	

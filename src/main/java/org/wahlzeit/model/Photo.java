@@ -95,16 +95,15 @@ public class Photo extends DataObject {
 	public Location location;
 
 	/**
-	 *
+	 * @methodtype constructor
 	 */
 	public Photo(Location location) {
 		this.location = location;
 		id = PhotoId.getNextId();
-		incWriteCount();
 	}
 
 	/**
-	 * 
+	 * @methodtype constructor
 	 */
 	public Photo() {
 		id = PhotoId.getNextId();
@@ -117,7 +116,6 @@ public class Photo extends DataObject {
 	 */
 	public Photo(PhotoId myId) {
 		id = myId;
-		
 		incWriteCount();
 	}
 	
@@ -171,8 +169,8 @@ public class Photo extends DataObject {
 
 		maxPhotoSize = PhotoSize.getFromWidthHeight(width, height);
 
-		location = new Location(new Coordinate(rset.getDouble("x_coordinate"), rset.getDouble("y_coordinate"),
-				rset.getDouble("z_coordinate")));
+		location = new Location();
+		this.location.readFrom(rset);
 	}
 	
 	/**
@@ -193,9 +191,18 @@ public class Photo extends DataObject {
 		rset.updateInt("praise_sum", praiseSum);
 		rset.updateInt("no_votes", noVotes);
 		rset.updateLong("creation_time", creationTime);
-		rset.updateDouble("x_coordinate", location.getCoordinate().getX());
-		rset.updateDouble("y_coordinate", location.getCoordinate().getY());
-		rset.updateDouble("z_coordinate", location.getCoordinate().getZ());
+
+		if(this.location != null) {
+			this.location.writeOn(rset);
+		}
+	}
+
+	@Override
+	public boolean isDirty() {
+		boolean selfDirty = this.writeCount != 0;
+		boolean locationDirty = this.location == null ? false : this.location.isDirty();
+
+		return  selfDirty || locationDirty;
 	}
 
 	/**

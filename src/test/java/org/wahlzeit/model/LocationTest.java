@@ -1,8 +1,13 @@
 package org.wahlzeit.model;
 
 import org.junit.Test;
+import org.mockito.Mockito;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.verify;
 
 /**
  * Test cases for the Location class.
@@ -19,7 +24,20 @@ public class LocationTest {
         assertTrue(loc.getCoordinate() == c);
     }
 
+    @Test
+    public void testSerialization() throws SQLException {
+        // ARRANGE
+        Coordinate coordinate = Mockito.mock(Coordinate.class);
+        ResultSet rset = Mockito.mock(ResultSet.class);
+        Location location = new Location(coordinate);
 
+        // ACT
+        location.writeOn(rset);
+
+        // ASSERT
+        verify(coordinate, Mockito.times(1)).writeOn(rset);
+
+    }
 
 
 

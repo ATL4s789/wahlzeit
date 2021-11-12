@@ -29,7 +29,10 @@ CREATE TABLE photos (
 	status integer,
 	praise_sum integer,
 	no_votes integer,
-	creation_time bigint
+	creation_time bigint,
+	coordinate_x float,
+    coordinate_y float,
+    coordinate_z float
 );
 
 CREATE TABLE tags (
