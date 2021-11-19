@@ -64,21 +64,6 @@ public class CoordinateTest {
         assertTrue(c.getDistance(c) == 0);
     }
 
-    /**
-     *
-     */
-    @Test
-    public void testGetDistanceRandom() {
-        float randomX = (float) Math.random() * 1000;
-        float randomY = (float) Math.random() * 1000;
-        float randomZ = (float) Math.random() * 1000;
-        Coordinate c1 = new Coordinate(randomX, randomY, randomZ);
-        Coordinate c2 = new Coordinate(-randomX, -randomY, -randomZ);
-        assertTrue(c1.getDistance(c2) == Math.sqrt(Math.pow(2* c1.getX(), 2) + Math.pow(2* c1.getY(), 2)
-                + Math.pow(2* c1.getZ(), 2)));
-    }
-
-
     @Test
     public void testSerialization() throws SQLException {
         // ARRANGE
