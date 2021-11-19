@@ -60,5 +60,4 @@ public abstract class AbstractCoordinate extends DataObject implements Coordinat
         return ID;
     }
 
-
 }
