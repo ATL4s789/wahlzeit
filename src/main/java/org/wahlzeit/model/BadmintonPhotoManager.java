@@ -17,13 +17,15 @@ public class BadmintonPhotoManager extends PhotoManager {
         photoTagCollector = BadmintonPhotoFactory.getInstance().createPhotoTagCollector();
     }
 
+    public static BadmintonPhotoManager getInstance() {
+        return instance;
+    }
 
     /**
      *
      */
-    protected BadmintonPhoto createObject(ResultSet rset) throws SQLException {
+    protected Photo createObject(ResultSet rset) throws SQLException {
         return BadmintonPhotoFactory.getInstance().createPhoto(rset);
     }
-
 
 }

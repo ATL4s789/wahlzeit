@@ -2,7 +2,6 @@ package org.wahlzeit.model;
 
 import org.wahlzeit.services.*;
 
-import javax.xml.transform.Result;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -31,7 +30,7 @@ public class Location extends DataObject {
      * @methodtype constructor
      */
     public Location() {
-        this.coordinate = new Coordinate();
+        this.coordinate = new CartesianCoordinate();
         incWriteCount();
     }
 

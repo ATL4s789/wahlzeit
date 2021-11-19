@@ -65,7 +65,7 @@ public class EditUserPhotoFormHandler extends AbstractWebFormHandler {
 	 */
 	protected String doHandlePost(UserSession us, Map args) {
 		String id = us.getAndSaveAsString(args, Photo.ID);
-		PhotoManager pm = PhotoManager.getInstance();
+		PhotoManager pm = BadmintonPhotoManager.getInstance();
 		Photo photo = PhotoManager.getPhoto(id);
 
 		String tags = us.getAndSaveAsString(args, Photo.TAGS);

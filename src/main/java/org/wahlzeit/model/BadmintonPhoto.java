@@ -5,29 +5,20 @@ import java.sql.SQLException;
 
 public class BadmintonPhoto extends Photo {
 
-    /**
-     * @methodtype constructor
-     */
-    public BadmintonPhoto(Location location) {
-        this.location = location;
-        id = PhotoId.getNextId();
-    }
+    private int players;
 
     /**
      * @methodtype constructor
      */
     public BadmintonPhoto() {
-        id = PhotoId.getNextId();
-        incWriteCount();
+        super();
     }
 
     /**
-     *
      * @methodtype constructor
      */
-    public BadmintonPhoto(PhotoId myId) {
-        id = myId;
-        incWriteCount();
+    public BadmintonPhoto(PhotoId id) {
+        super(id);
     }
 
     /**
@@ -35,8 +26,27 @@ public class BadmintonPhoto extends Photo {
      * @methodtype constructor
      */
     public BadmintonPhoto(ResultSet rset) throws SQLException {
-        readFrom(rset);
+        super(rset);
     }
+
+    public void setPlayers(int players) {
+        this.players = players;
+    }
+
+    public int getPlayers() {
+        return this.players;
+    }
+
+    public void writeOn(ResultSet rset) throws SQLException {
+        super.writeOn(rset);
+        rset.updateInt("players", players);
+    }
+
+    public void readFrom(ResultSet rset) throws SQLException {
+        super.readFrom(rset);
+        players = rset.getInt("players");
+    }
+
 
 }
 

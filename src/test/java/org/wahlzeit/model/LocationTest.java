@@ -19,7 +19,7 @@ public class LocationTest {
      */
     @Test
     public void testGetCoordinate() {
-        Coordinate c = new Coordinate(0,0, 0);
+        Coordinate c = new CartesianCoordinate(0,0, 0);
         Location loc = new Location(c);
         assertTrue(loc.getCoordinate() == c);
     }
@@ -27,7 +27,7 @@ public class LocationTest {
     @Test
     public void testSerialization() throws SQLException {
         // ARRANGE
-        Coordinate coordinate = Mockito.mock(Coordinate.class);
+        Coordinate coordinate = Mockito.mock(CartesianCoordinate.class);
         ResultSet rset = Mockito.mock(ResultSet.class);
         Location location = new Location(coordinate);
 

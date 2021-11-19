@@ -4,17 +4,17 @@ import java.sql.*;
 
 import org.wahlzeit.services.*;
 
-public class BadmintonPhotoFactory extends PhotoFactory{
+public class BadmintonPhotoFactory extends PhotoFactory {
 
     /**
      * Hidden singleton instance; needs to be initialized from the outside.
      */
-    private static BadmintonPhotoFactory instance = null;
+    private static PhotoFactory instance = null;
 
     /**
      * Public singleton access method.
      */
-    public static synchronized BadmintonPhotoFactory getInstance() {
+    public static synchronized PhotoFactory getInstance() {
         if (instance == null) {
             SysLog.logSysInfo("setting BadmintonPhotoFactory");
             setInstance(new BadmintonPhotoFactory());
@@ -42,21 +42,21 @@ public class BadmintonPhotoFactory extends PhotoFactory{
     /**
      * @methodtype factory
      */
-    public BadmintonPhoto createPhoto() {
+    public Photo createPhoto() {
         return new BadmintonPhoto();
     }
 
     /**
      *
      */
-    public BadmintonPhoto createPhoto(PhotoId id) {
+    public Photo createPhoto(PhotoId id) {
         return new BadmintonPhoto(id);
     }
 
     /**
      *
      */
-    public BadmintonPhoto createPhoto(ResultSet rs) throws SQLException {
+    public Photo createPhoto(ResultSet rs) throws SQLException {
         return new BadmintonPhoto(rs);
     }
 

@@ -39,7 +39,7 @@ public class ShowPhotoPageHandler extends AbstractWebPageHandler implements WebF
 		}
 		
 		if (photo == null) {
-			PhotoManager photoManager = PhotoManager.getInstance();
+			PhotoManager photoManager = BadmintonPhotoManager.getInstance();
 			PhotoFilter filter = us.getPhotoFilter();
 			photo = photoManager.getVisiblePhoto(filter);
 			if (photo != null) {

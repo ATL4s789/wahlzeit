@@ -94,13 +94,6 @@ public class Photo extends DataObject {
 	 */
 	public Location location;
 
-	/**
-	 * @methodtype constructor
-	 */
-	public Photo(Location location) {
-		this.location = location;
-		id = PhotoId.getNextId();
-	}
 
 	/**
 	 * @methodtype constructor

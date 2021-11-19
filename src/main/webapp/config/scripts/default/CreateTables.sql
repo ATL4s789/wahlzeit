@@ -30,9 +30,10 @@ CREATE TABLE photos (
 	praise_sum integer,
 	no_votes integer,
 	creation_time bigint,
-	coordinate_x float,
-    coordinate_y float,
-    coordinate_z float
+	coordinate_x double,
+    coordinate_y double,
+    coordinate_z double,
+    players integer
 );
 
 CREATE TABLE tags (

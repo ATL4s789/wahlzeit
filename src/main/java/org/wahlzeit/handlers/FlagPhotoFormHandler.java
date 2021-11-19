@@ -70,7 +70,7 @@ public class FlagPhotoFormHandler extends AbstractWebFormHandler {
 		
 		Photo photo = PhotoManager.getPhoto(id);
 		photo.setStatus(photo.getStatus().asFlagged(true));
-		PhotoManager pm = PhotoManager.getInstance();
+		PhotoManager pm = BadmintonPhotoManager.getInstance();
 		pm.savePhoto(photo);
 		
 		PhotoCase photoCase = new PhotoCase(photo);
