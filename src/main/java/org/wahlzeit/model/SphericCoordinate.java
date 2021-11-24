@@ -1,12 +1,10 @@
 package org.wahlzeit.model;
 
-import org.wahlzeit.services.*;
-
 import java.sql.*;
 import java.util.*;
 
 /**
- * Coordinates in the 3-dimensional spherical (phi,theta,r) system
+ * Coordinates in the 3-dimensional spherical (longitude, latitude, radius) system
  * This class assumes the polar axis is the z-axis, and the equatorial plane is
  * the XY plane.
  */
@@ -15,16 +13,16 @@ public class SphericCoordinate extends AbstractCoordinate {
     /**
      * spherical coordinates
      */
-    private double phi;
-    private double theta;
+    private double longitude;
+    private double latitude;
     private double radius;
 
     /**
      * @methodtype constructor
      */
-    public SphericCoordinate(double phi, double theta, double radius) {
-        this.phi = phi;
-        this.theta = theta;
+    public SphericCoordinate(double longitude, double latitude, double radius) {
+        this.longitude = longitude;
+        this.latitude = latitude;
         this.radius = radius;
         incWriteCount();
     }
@@ -34,12 +32,12 @@ public class SphericCoordinate extends AbstractCoordinate {
      */
     public SphericCoordinate() {    }
 
-    public double getPhi() {
-        return phi;
+    public double getLongitude() {
+        return longitude;
     }
 
-    public double getTheta() {
-        return theta;
+    public double getLatitude() {
+        return latitude;
     }
 
     public double getRadius() {
@@ -48,16 +46,16 @@ public class SphericCoordinate extends AbstractCoordinate {
 
 
     /**
-     * subclass specific implementations of Interface methods
+     * subclass specific implementations of Coordinate Interface methods
      */
     public SphericCoordinate asSphericCoordinate() {
         return this;
     }
 
     public CartesianCoordinate asCartesianCoordinate() {
-        double x = this.radius * Math.cos(this.theta) * Math.sin(this.phi);
-        double y = this.radius * Math.sin(this.theta) * Math.sin(this.phi);
-        double z = this.radius * Math.cos(this.phi);
+        double x = this.radius * Math.cos(this.latitude) * Math.sin(this.longitude);
+        double y = this.radius * Math.sin(this.latitude) * Math.sin(this.longitude);
+        double z = this.radius * Math.cos(this.longitude);
         return new CartesianCoordinate(x, y, z);
     }
 
@@ -67,11 +65,9 @@ public class SphericCoordinate extends AbstractCoordinate {
     @Override
     public void writeOn(ResultSet rset) throws SQLException {
         CartesianCoordinate c = this.asCartesianCoordinate();
-
-        rset.updateDouble("coordinate_x", c.getX());
-        rset.updateDouble("coordinate_y", c.getY());
-        rset.updateDouble("coordinate_z", c.getZ());
+        doWriteOn(rset, c.getX(), c.getY(), c.getZ());
     }
+
 
     @Override
     public void readFrom(ResultSet rset) throws SQLException {
@@ -81,8 +77,8 @@ public class SphericCoordinate extends AbstractCoordinate {
         CartesianCoordinate c = new CartesianCoordinate(x, y, z);
 
         SphericCoordinate s = c.asSphericCoordinate();
-        this.phi = s.getPhi();
-        this.theta = s.getTheta();
+        this.longitude = s.getLongitude();
+        this.latitude = s.getLatitude();
         this.radius = s.getRadius();
     }
 
@@ -99,7 +95,7 @@ public class SphericCoordinate extends AbstractCoordinate {
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.phi, this.theta, this.radius);
+        return Objects.hash(this.longitude, this.latitude, this.radius);
     }
 
 

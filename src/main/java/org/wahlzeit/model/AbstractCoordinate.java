@@ -3,7 +3,6 @@ package org.wahlzeit.model;
 import org.wahlzeit.services.*;
 
 import java.sql.*;
-import java.util.*;
 
 public abstract class AbstractCoordinate extends DataObject implements Coordinate {
 
@@ -25,8 +24,8 @@ public abstract class AbstractCoordinate extends DataObject implements Coordinat
     }
 
     private double doGetCentralAngle(SphericCoordinate from, SphericCoordinate to) {
-        return Math.acos(Math.sin(from.getPhi()) * Math.sin(to.getPhi())
-        + Math.cos(from.getPhi()) * Math.cos(to.getPhi()) * Math.cos(Math.abs(from.getTheta() - to.getTheta())));
+        return Math.acos(Math.sin(from.getLongitude()) * Math.sin(to.getLongitude())
+        + Math.cos(from.getLongitude()) * Math.cos(to.getLongitude()) * Math.cos(Math.abs(from.getLatitude() - to.getLatitude())));
     }
 
     /**
@@ -44,10 +43,15 @@ public abstract class AbstractCoordinate extends DataObject implements Coordinat
         return eqX && eqY && eqZ;
     }
 
+    protected void doWriteOn(ResultSet rset, double x, double y, double z) throws SQLException {
+        rset.updateDouble("coordinate_x", x);
+        rset.updateDouble("coordinate_y", y);
+        rset.updateDouble("coordinate_z", z);
+    }
+
     @Override
     public boolean isDirty() {
-        boolean selfDirty = this.writeCount != 0;
-        return selfDirty;
+        return this.writeCount != 0;
     }
 
     @Override

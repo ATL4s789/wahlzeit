@@ -6,8 +6,7 @@ import org.mockito.Mockito;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 
 
@@ -38,7 +37,41 @@ public class CoordinateTest {
     }
 
     @Test
-    public void testCartesiansDistances() {
+    public void testConversion() {
+        double delta = 0.0001;
+        double latitude, longitude, radius;
+        Coordinate c;
+
+        c = new CartesianCoordinate(3, 4, 5);
+        latitude = c.asSphericCoordinate().getLatitude();
+        longitude = c.asSphericCoordinate().getLongitude();
+        radius = c.asSphericCoordinate().getRadius();
+
+        assertEquals(7.07107, radius, delta);
+        assertEquals(0.9273, latitude, delta);
+        assertEquals(0.785398, longitude, delta);
+
+        c = new CartesianCoordinate(1, 0, 0);
+        latitude = c.asSphericCoordinate().getLatitude();
+        longitude = c.asSphericCoordinate().getLongitude();
+        radius = c.asSphericCoordinate().getRadius();
+
+        assertEquals(1, radius, delta);
+        assertEquals(0, latitude, delta);
+        assertEquals(1.5708, longitude, delta);
+
+        c = new CartesianCoordinate(0, 1, 1);
+        latitude = c.asSphericCoordinate().getLatitude();
+        longitude = c.asSphericCoordinate().getLongitude();
+        radius = c.asSphericCoordinate().getRadius();
+
+        assertEquals(1.41421, radius, delta);
+        assertEquals(1.5708, latitude, delta);
+        assertEquals(0.785398, longitude, delta);
+    }
+
+    @Test
+    public void testCartesianDistances() {
         // ARRANGE
         Coordinate c1 = new CartesianCoordinate(0, 0, 0);
         Coordinate c2 = new CartesianCoordinate(0, 0, 1);

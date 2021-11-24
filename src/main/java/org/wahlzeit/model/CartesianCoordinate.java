@@ -50,7 +50,7 @@ public class CartesianCoordinate extends AbstractCoordinate  {
 
 
     /**
-     * subclass specific implementations of Interface methods
+     * subclass specific implementations of Coordinate Interface methods
      */
     public CartesianCoordinate asCartesianCoordinate() {
         return this;
@@ -58,12 +58,12 @@ public class CartesianCoordinate extends AbstractCoordinate  {
 
     public SphericCoordinate asSphericCoordinate() {
         double radius = Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
-        double theta = Math.atan2(this.y, this.x);
-        double phi = 0;
+        double latitude = Math.atan2(this.y, this.x);
+        double longitude = 0;
         if(radius != 0) {
-            phi = Math.acos(z / radius);
+            longitude = Math.acos(z / radius);
         }
-        return new SphericCoordinate(phi, theta, radius);
+        return new SphericCoordinate(longitude, latitude, radius);
     }
 
     /**
@@ -71,9 +71,7 @@ public class CartesianCoordinate extends AbstractCoordinate  {
      */
     @Override
     public void writeOn(ResultSet rset) throws SQLException {
-        rset.updateDouble("coordinate_x", this.x);
-        rset.updateDouble("coordinate_y", this.y);
-        rset.updateDouble("coordinate_z", this.z);
+        doWriteOn(rset, this.x, this.y, this.z);
     }
 
     @Override
