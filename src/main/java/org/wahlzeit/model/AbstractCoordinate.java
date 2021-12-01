@@ -10,22 +10,17 @@ public abstract class AbstractCoordinate extends DataObject implements Coordinat
 
 
     public double getCartesianDistance(Coordinate coordinate) {
-        return doGetCartesianDistance(this.asCartesianCoordinate(), coordinate.asCartesianCoordinate());
-    }
-
-    private double doGetCartesianDistance(CartesianCoordinate from, CartesianCoordinate to) {
-        return Math.sqrt((from.getX() - to.getX()) * (from.getX() - to.getX())
-                + (from.getY() - to.getY()) * (from.getY() - to.getY())
-                + (from.getZ() - to.getZ()) * (from.getZ() - to.getZ()));
+        assertNotNull(coordinate);
+        return this.asCartesianCoordinate().doGetCartesianDistance(coordinate.asCartesianCoordinate());
     }
 
     public double getCentralAngle(Coordinate coordinate) {
-        return doGetCentralAngle(this.asSphericCoordinate(), coordinate.asSphericCoordinate());
+        assertNotNull(coordinate);
+        return this.asSphericCoordinate().doGetCentralAngle(coordinate.asSphericCoordinate());
     }
 
-    private double doGetCentralAngle(SphericCoordinate from, SphericCoordinate to) {
-        return Math.acos(Math.sin(from.getLongitude()) * Math.sin(to.getLongitude())
-        + Math.cos(from.getLongitude()) * Math.cos(to.getLongitude()) * Math.cos(Math.abs(from.getLatitude() - to.getLatitude())));
+    protected void assertNotNull(Object obj) {
+        assert(obj != null);
     }
 
     /**
@@ -33,6 +28,7 @@ public abstract class AbstractCoordinate extends DataObject implements Coordinat
      * in parent class AbstractCoordinate
      */
     public boolean isEqual(Coordinate coordinate) {
+        assertNotNull(coordinate);
         CartesianCoordinate from = this.asCartesianCoordinate();
         CartesianCoordinate to = coordinate.asCartesianCoordinate();
 
@@ -44,6 +40,7 @@ public abstract class AbstractCoordinate extends DataObject implements Coordinat
     }
 
     protected void doWriteOn(ResultSet rset, double x, double y, double z) throws SQLException {
+        assertNotNull(rset);
         rset.updateDouble("coordinate_x", x);
         rset.updateDouble("coordinate_y", y);
         rset.updateDouble("coordinate_z", z);

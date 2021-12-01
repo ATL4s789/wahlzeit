@@ -190,6 +190,10 @@ public class Photo extends DataObject {
 		}
 	}
 
+	protected void assertNotNull(Object obj) {
+		assert(obj != null);
+	}
+
 	@Override
 	public boolean isDirty() {
 		boolean selfDirty = this.writeCount != 0;

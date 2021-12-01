@@ -10,7 +10,7 @@ import java.lang.Math;
 import java.util.Objects;
 
 /**
- * Coordinates in the 3-dimensional cartesian (x,y,z) )system
+ * Coordinates in the 3-dimensional cartesian (x,y,z) system
  */
 public class CartesianCoordinate extends AbstractCoordinate  {
 
@@ -63,19 +63,37 @@ public class CartesianCoordinate extends AbstractCoordinate  {
         if(radius != 0) {
             longitude = Math.acos(z / radius);
         }
-        return new SphericCoordinate(longitude, latitude, radius);
+        SphericCoordinate s = new SphericCoordinate(longitude, latitude, radius);
+        assertSphericClassInvariants (longitude, latitude);
+        assertNotNull(s);
+        return s;
     }
+
+    private void assertSphericClassInvariants(double longitude, double latitude) {
+        assert (0 <= longitude && longitude < 2*Math.PI && 0 <= latitude && latitude < 2*Math.PI);
+    }
+
+
+    protected double doGetCartesianDistance(CartesianCoordinate to) {
+        assertNotNull(to);
+        return Math.sqrt((this.getX() - to.getX()) * (this.getX() - to.getX())
+                + (this.getY() - to.getY()) * (this.getY() - to.getY())
+                + (this.getZ() - to.getZ()) * (this.getZ() - to.getZ()));
+    }
+
 
     /**
      * subclass specific implementations of DataObject methods
      */
     @Override
     public void writeOn(ResultSet rset) throws SQLException {
+        assertNotNull(rset);
         doWriteOn(rset, this.x, this.y, this.z);
     }
 
     @Override
     public void readFrom(ResultSet rset) throws SQLException {
+        assertNotNull(rset);
         this.x = rset.getDouble("coordinate_x");
         this.y = rset.getDouble("coordinate_y");
         this.z = rset.getDouble("coordinate_z");
@@ -83,6 +101,7 @@ public class CartesianCoordinate extends AbstractCoordinate  {
 
     @Override
     public boolean equals(Object obj) {
+        assertNotNull(obj);
         if (this == obj) {
             return true;
         }
