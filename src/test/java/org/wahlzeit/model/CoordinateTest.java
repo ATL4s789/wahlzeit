@@ -31,9 +31,6 @@ public class CoordinateTest {
 
         testEqualityFalseClass(c1, s1);
         testEqualityFalseClass(s2, c2);
-
-        testNotEqualsNull(c1);
-        testNotEqualsNull(s1);
     }
 
     @Test
@@ -120,10 +117,6 @@ public class CoordinateTest {
 
     public void testEqualityFalseClass(Coordinate coordinate1, Coordinate coordinate2) {
         assertFalse(coordinate1.equals(coordinate2));
-    }
-
-    public void testNotEqualsNull(Coordinate coordinate) {
-        assertFalse(coordinate.equals(null));
     }
 
     @Test
