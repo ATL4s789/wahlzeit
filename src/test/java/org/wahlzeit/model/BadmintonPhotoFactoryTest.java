@@ -13,15 +13,6 @@ public class BadmintonPhotoFactoryTest {
 
         assertTrue(factory.getInstance() instanceof BadmintonPhotoFactory);
         assertTrue(BadmintonPhotoFactory.getInstance() instanceof BadmintonPhotoFactory);
-        try {
-            BadmintonPhotoFactory.setInstance(null);
-        } catch (IllegalStateException exception) {
-            assertTrue(true);
-        }
-        try {
-            factory.setInstance(null);
-        } catch (IllegalStateException exception) {
-            assertTrue(true);
-        }
+
     }
 }

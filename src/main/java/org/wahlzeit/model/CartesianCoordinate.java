@@ -36,15 +36,18 @@ public class CartesianCoordinate extends AbstractCoordinate  {
      */
     public CartesianCoordinate() {    }
 
-    public double getX() {
+    public double getX() throws IllegalStateException {
+        assertClassInvariants();
         return x;
     }
 
-    public double getY() {
+    public double getY() throws IllegalStateException {
+        assertClassInvariants();
         return y;
     }
 
-    public double getZ() {
+    public double getZ() throws IllegalStateException {
+        assertClassInvariants();
         return z;
     }
 
@@ -52,11 +55,13 @@ public class CartesianCoordinate extends AbstractCoordinate  {
     /**
      * subclass specific implementations of Coordinate Interface methods
      */
-    public CartesianCoordinate asCartesianCoordinate() {
+    public CartesianCoordinate asCartesianCoordinate() throws IllegalStateException {
+        assertClassInvariants();
         return this;
     }
 
-    public SphericCoordinate asSphericCoordinate() {
+    public SphericCoordinate asSphericCoordinate() throws ArithmeticException, IllegalStateException, NullPointerException {
+        assertClassInvariants();
         double radius = Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
         double latitude = Math.atan2(this.y, this.x);
         double longitude = 0;
@@ -64,21 +69,20 @@ public class CartesianCoordinate extends AbstractCoordinate  {
             longitude = Math.acos(z / radius);
         }
         SphericCoordinate s = new SphericCoordinate(longitude, latitude, radius);
-        assertSphericClassInvariants (longitude, latitude);
         assertNotNull(s);
+        s.assertClassInvariants();
         return s;
     }
 
-    private void assertSphericClassInvariants(double longitude, double latitude) {
-        assert (0 <= longitude && longitude < 2*Math.PI && 0 <= latitude && latitude < 2*Math.PI);
-    }
 
-
-    protected double doGetCartesianDistance(CartesianCoordinate to) {
+    protected double doGetCartesianDistance(CartesianCoordinate to) throws IllegalStateException, NullPointerException {
+        assertClassInvariants();
         assertNotNull(to);
-        return Math.sqrt((this.getX() - to.getX()) * (this.getX() - to.getX())
+        double distance = Math.sqrt((this.getX() - to.getX()) * (this.getX() - to.getX())
                 + (this.getY() - to.getY()) * (this.getY() - to.getY())
                 + (this.getZ() - to.getZ()) * (this.getZ() - to.getZ()));
+        assert(distance >= 0);
+        return distance;
     }
 
 
@@ -86,21 +90,33 @@ public class CartesianCoordinate extends AbstractCoordinate  {
      * subclass specific implementations of DataObject methods
      */
     @Override
-    public void writeOn(ResultSet rset) throws SQLException {
+    public void writeOn(ResultSet rset) throws IllegalStateException, NullPointerException, SQLException {
+        assertClassInvariants();
         assertNotNull(rset);
-        doWriteOn(rset, this.x, this.y, this.z);
+        try {
+            doWriteOn(rset, this.x, this.y, this.z);
+        } catch (SQLException e) {
+            throw new SQLException("Could write on resultSet: " + rset.toString() + ". " + e.getMessage());
+        }
     }
 
     @Override
-    public void readFrom(ResultSet rset) throws SQLException {
+    public void readFrom(ResultSet rset) throws IllegalStateException, NullPointerException, SQLException {
+        assertClassInvariants();
         assertNotNull(rset);
-        this.x = rset.getDouble("coordinate_x");
-        this.y = rset.getDouble("coordinate_y");
-        this.z = rset.getDouble("coordinate_z");
+        try {
+            this.x = rset.getDouble("coordinate_x");
+            this.y = rset.getDouble("coordinate_y");
+            this.z = rset.getDouble("coordinate_z");
+        } catch (SQLException e) {
+            throw new SQLException("Could not read from resultSet: " + rset + ". " + e.getMessage());
+        }
+        assertClassInvariants();
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(Object obj) throws IllegalStateException, NullPointerException {
+        assertClassInvariants();
         assertNotNull(obj);
         if (this == obj) {
             return true;
@@ -112,7 +128,8 @@ public class CartesianCoordinate extends AbstractCoordinate  {
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode() throws IllegalStateException {
+        assertClassInvariants();
         return Objects.hash(this.x, this.y, this.z);
     }
 

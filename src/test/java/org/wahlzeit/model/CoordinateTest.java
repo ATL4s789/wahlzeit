@@ -5,6 +5,7 @@ import org.mockito.Mockito;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.*;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
@@ -76,14 +77,14 @@ public class CoordinateTest {
         Coordinate s2 = new SphericCoordinate(0, 0, 1);
 
 
-        assertTrue(c1.getCartesianDistance(c1) == 0);
-        assertTrue(s2.getCartesianDistance(s2) == 0);
+        assertEquals(0, c1.getCartesianDistance(c1), 0.0);
+        assertEquals(0, s2.getCartesianDistance(s2), 0.0);
 
-        assertTrue(c1.getCartesianDistance(c2) == 1);
-        assertTrue(s1.getCartesianDistance(s2) == 1);
+        assertEquals(1, c1.getCartesianDistance(c2), 0.0);
+        assertEquals(1, s1.getCartesianDistance(s2), 0.0);
 
-        assertTrue(c1.getCartesianDistance(s2) == 1);
-        assertTrue(s1.getCartesianDistance(c2) == 1);
+        assertEquals(1, c1.getCartesianDistance(s2), 0.0);
+        assertEquals(1, s1.getCartesianDistance(c2), 0.0);
     }
 
     @Test
@@ -94,29 +95,45 @@ public class CoordinateTest {
         Coordinate s1 = new SphericCoordinate(0, 0, 0);
         Coordinate s2 = new SphericCoordinate(0, 0, 1);
 
-        assertTrue(c1.getCentralAngle(c1) == 0);
-        assertTrue(s2.getCentralAngle(s2) == 0);
+        assertEquals(0, c1.getCentralAngle(c1), 0.0);
+        assertEquals(0, s2.getCentralAngle(s2), 0.0);
 
-        assertTrue(c1.getCentralAngle(c2) == Math.acos(1));
-        assertTrue(s1.getCentralAngle(s2) == Math.acos(1));
+        assertEquals(c1.getCentralAngle(c2), Math.acos(1), 0.0);
+        assertEquals(s1.getCentralAngle(s2), Math.acos(1), 0.0);
 
-        assertTrue(c2.getCentralAngle(s1) == Math.acos(1));
-        assertTrue(s2.getCentralAngle(c1) == Math.acos(1));
+        assertEquals(c2.getCentralAngle(s1), Math.acos(1), 0.0);
+        assertEquals(s2.getCentralAngle(c1), Math.acos(1), 0.0);
+    }
 
+    @Test
+    public void testPostconditions() {
+        // ARRANGE
+        Random rand = new Random();
+        Coordinate s1 = new SphericCoordinate(rand.nextDouble() * Math.PI, rand.nextDouble() * Math.PI, 2);
+        Coordinate s2 = new SphericCoordinate(rand.nextDouble() * Math.PI, rand.nextDouble() * Math.PI, 4);
+
+        Coordinate c1 = new SphericCoordinate(rand.nextDouble() * 100, rand.nextDouble() * 100, rand.nextDouble() * 100);
+        Coordinate c2 = new SphericCoordinate(rand.nextDouble() * 100, rand.nextDouble() * 100, rand.nextDouble() * 100);
+
+        s1.getCentralAngle(s2);
+        s1.getCartesianDistance(s2);
+
+        c1.getCentralAngle(c2);
+        c1.getCartesianDistance(c2);
     }
 
     private void testEqualitySelf(Coordinate coordinate) {
-        assertTrue(coordinate.equals(coordinate));
+        assertEquals(coordinate, coordinate);
         assertTrue(coordinate.isEqual(coordinate));
     }
 
     private void testNoEquality(Coordinate coordinate1, Coordinate coordinate2) {
-        assertFalse(coordinate1.equals(coordinate2));
+        assertNotEquals(coordinate1, coordinate2);
         assertFalse(coordinate1.isEqual(coordinate2));
     }
 
     public void testEqualityFalseClass(Coordinate coordinate1, Coordinate coordinate2) {
-        assertFalse(coordinate1.equals(coordinate2));
+        assertNotEquals(coordinate1, coordinate2);
     }
 
     @Test

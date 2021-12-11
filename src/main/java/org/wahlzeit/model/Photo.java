@@ -191,7 +191,9 @@ public class Photo extends DataObject {
 	}
 
 	protected void assertNotNull(Object obj) {
-		assert(obj != null);
+		if(obj == null) {
+			throw new NullPointerException("Argument is null.");
+		}
 	}
 
 	@Override

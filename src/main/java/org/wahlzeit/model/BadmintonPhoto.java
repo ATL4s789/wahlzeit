@@ -29,31 +29,46 @@ public class BadmintonPhoto extends Photo {
         super(rset);
     }
 
-    public void setPlayers(int players) {
-        assertValidPlayersCount(players);
+    public void setPlayers(int players) throws IllegalArgumentException {
+        assertClassInvariants();
+        if(players < 0) {
+            throw new IllegalArgumentException("Number of players must be >= 0.");
+        }
         this.players = players;
     }
 
-    public int getPlayers() {
-        assertValidPlayersCount(this.players);
+    public int getPlayers() throws IllegalStateException {
+        assertClassInvariants();
         return this.players;
     }
 
-    public void writeOn(ResultSet rset) throws SQLException {
+    public void writeOn(ResultSet rset) throws SQLException, IllegalStateException, NullPointerException {
+        assertClassInvariants();
         assertNotNull(rset);
-        super.writeOn(rset);
-        rset.updateInt("players", players);
+        try {
+            super.writeOn(rset);
+            rset.updateInt("players", players);
+        } catch (SQLException e) {
+            throw new SQLException("Could not create Photo from resultSet: " + rset.toString() + ". " + e.getMessage());
+        }
     }
 
-    protected void assertValidPlayersCount(int count) {
-        assert count >= 0;
+    protected void assertClassInvariants() throws IllegalStateException {
+        if(this.players < 0) {
+            throw new IllegalStateException("Number of players in this Photo is < 0.");
+        }
     }
 
-
-    public void readFrom(ResultSet rset) throws SQLException {
+    public void readFrom(ResultSet rset) throws SQLException, IllegalStateException, NullPointerException {
+        assertClassInvariants();
         assertNotNull(rset);
-        super.readFrom(rset);
-        players = rset.getInt("players");
+        try {
+            super.readFrom(rset);
+            players = rset.getInt("players");
+        } catch (SQLException e) {
+            throw new SQLException("Could not create Photo from resultSet: " + rset.toString() + ". " + e.getMessage());
+        }
+        assertClassInvariants();
     }
 
 

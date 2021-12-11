@@ -16,7 +16,7 @@ public class BadmintonPhotoFactory extends PhotoFactory {
      */
     public static synchronized PhotoFactory getInstance() {
         if (instance == null) {
-            SysLog.logSysInfo("setting BadmintonPhotoFactory");
+            SysLog.logSysInfo("Setting BadmintonPhotoFactory");
             setInstance(new BadmintonPhotoFactory());
         }
         return instance;
@@ -25,16 +25,17 @@ public class BadmintonPhotoFactory extends PhotoFactory {
     /**
      * Method to set the singleton instance of BadmintonPhotoFactory.
      */
-    protected static synchronized void setInstance(BadmintonPhotoFactory badmintonPhotoFactory) {
+    protected static synchronized void setInstance(BadmintonPhotoFactory badmintonPhotoFactory) throws IllegalStateException, NullPointerException  {
+        if(badmintonPhotoFactory == null) {
+            throw new NullPointerException("The given badmintonPhotoFactory parameter was null!");
+        }
         if (instance != null) {
-            throw new IllegalStateException("attempt to initialize BadmintonPhotoFactory twice");
+            throw new IllegalStateException("Attempt to initialize BadmintonPhotoFactory twice");
         }
         instance = badmintonPhotoFactory;
     }
 
-    /**
-     *
-     */
+
     protected BadmintonPhotoFactory() {
         // do nothing
     }
@@ -46,18 +47,20 @@ public class BadmintonPhotoFactory extends PhotoFactory {
         return new BadmintonPhoto();
     }
 
-    /**
-     *
-     */
+
     public Photo createPhoto(PhotoId id) {
         return new BadmintonPhoto(id);
     }
 
-    /**
-     *
-     */
+
     public Photo createPhoto(ResultSet rs) throws SQLException {
-        return new BadmintonPhoto(rs);
+        Photo photo;
+        try {
+            photo = BadmintonPhotoFactory.getInstance().createPhoto(rs);
+        } catch (SQLException e) {
+            throw new SQLException("Could not create Photo from resultSet: " + rs.toString() + ". " + e.getMessage());
+        }
+        return photo;
     }
 
 }
