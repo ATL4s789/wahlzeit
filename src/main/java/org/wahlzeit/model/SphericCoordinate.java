@@ -8,14 +8,14 @@ import java.util.*;
  * This class assumes the polar axis is the z-axis, and the equatorial plane is
  * the XY plane.
  */
-public class SphericCoordinate extends AbstractCoordinate {
+public final class SphericCoordinate extends AbstractCoordinate {
 
     /**
      * spherical coordinates
      */
-    private double longitude;
-    private double latitude;
-    private double radius;
+    private final double longitude;
+    private final double latitude;
+    private final double radius;
 
     /**
      * @methodtype constructor
@@ -24,14 +24,28 @@ public class SphericCoordinate extends AbstractCoordinate {
         this.longitude = longitude % (2 * Math.PI);     // make sure angles are < 2Pi, since 4Pi = 2Pi
         this.latitude = latitude % (2 * Math.PI);
         this.radius = radius;
-        incWriteCount();
         assertClassInvariants();
     }
 
     /**
      * @methodtype constructor
      */
-    public SphericCoordinate() {    }
+    public SphericCoordinate(ResultSet rset) throws SQLException {
+        assertNotNull(rset);
+        double x, y, z;
+        try {
+            x = rset.getDouble("coordinate_x");
+            y = rset.getDouble("coordinate_y");
+            z = rset.getDouble("coordinate_z");
+        } catch (SQLException e) {
+            throw new SQLException("Could not read from resultSet: " + rset + ". " + e.getMessage());
+        }
+        SphericCoordinate c = (new CartesianCoordinate(x, y, z)).asSphericCoordinate();
+        this.longitude = c.getLongitude();
+        this.latitude = c.getLatitude();
+        this.radius = c.getRadius();
+        assertClassInvariants();
+    }
 
     public double getLongitude() throws IllegalStateException {
         assertClassInvariants();
@@ -87,46 +101,6 @@ public class SphericCoordinate extends AbstractCoordinate {
         return centralAngle;
     }
 
-    /**
-     * subclass specific implementations of DataObject methods
-     */
-    @Override
-    public void writeOn(ResultSet rset) throws SQLException, NullPointerException, IllegalStateException {
-        assertNotNull(rset);
-        assertClassInvariants();
-        CartesianCoordinate c = this.asCartesianCoordinate();
-        try {
-            doWriteOn(rset, c.getX(), c.getY(), c.getZ());
-        } catch (SQLException e) {
-            throw new SQLException("Could not write on resultSet: " + rset.toString() + ". " + e.getMessage());
-        }
-    }
-
-
-    @Override
-    public void readFrom(ResultSet rset) throws SQLException, NullPointerException, IllegalStateException, ArithmeticException {
-        assertNotNull(rset);
-        assertClassInvariants();
-        double x;
-        double y;
-        double z;
-        try {
-            x = rset.getDouble("coordinate_x");
-            y = rset.getDouble("coordinate_y");
-            z = rset.getDouble("coordinate_z");
-        } catch (SQLException e) {
-            throw new SQLException("Could not read from resultSet: " + rset + ". " + e.getMessage());
-        }
-        CartesianCoordinate c = new CartesianCoordinate(x, y, z);
-        c.assertClassInvariants();
-
-        SphericCoordinate s = c.asSphericCoordinate();
-        this.longitude = s.getLongitude();
-        this.latitude = s.getLatitude();
-        this.radius = s.getRadius();
-        assertClassInvariants();
-    }
-
     @Override
     public boolean equals(Object obj) throws NullPointerException, IllegalStateException {
         assertNotNull(obj);
@@ -134,10 +108,10 @@ public class SphericCoordinate extends AbstractCoordinate {
         if(this == obj) {
             return true;
         }
-        if(!(obj instanceof SphericCoordinate)) {
+        if (!(obj instanceof Coordinate)) {
             return false;
         }
-        return isEqual((SphericCoordinate) obj);
+        return isEqual((Coordinate) obj);
     }
 
     @Override
@@ -145,6 +119,5 @@ public class SphericCoordinate extends AbstractCoordinate {
         assertClassInvariants();
         return Objects.hash(this.longitude, this.latitude, this.radius);
     }
-
 
 }

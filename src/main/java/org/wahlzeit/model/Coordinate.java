@@ -1,7 +1,5 @@
 package org.wahlzeit.model;
 
-import org.wahlzeit.services.*;
-
 import java.sql.*;
 
 public interface Coordinate {
@@ -18,15 +16,5 @@ public interface Coordinate {
     double getCentralAngle(Coordinate coordinate);
 
     boolean isEqual(Coordinate coordinate);
-
-    /**
-     * methods by DataObject
-     * necessary for implementation of Location
-     */
-    void writeOn(ResultSet rset) throws SQLException;
-
-    void readFrom(ResultSet rset) throws SQLException;
-
-    boolean isDirty();
 
 }

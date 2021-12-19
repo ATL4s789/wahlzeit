@@ -1,8 +1,5 @@
 package org.wahlzeit.model;
 
-import org.wahlzeit.services.*;
-
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -12,14 +9,14 @@ import java.util.Objects;
 /**
  * Coordinates in the 3-dimensional cartesian (x,y,z) system
  */
-public class CartesianCoordinate extends AbstractCoordinate  {
+public final class CartesianCoordinate extends AbstractCoordinate  {
 
     /**
      * cartesian coordinates
      */
-    private double x;
-    private double y;
-    private double z;
+    private final double x;
+    private final double y;
+    private final double z;
 
     /**
      * @methodtype constructor
@@ -28,13 +25,20 @@ public class CartesianCoordinate extends AbstractCoordinate  {
         this.x = x;
         this.y = y;
         this.z = z;
-        incWriteCount();
+        assertClassInvariants();
     }
 
-    /**
-     * @methodtype constructor
-     */
-    public CartesianCoordinate() {    }
+    public CartesianCoordinate(ResultSet rset) throws SQLException {
+        assertNotNull(rset);
+        try {
+            this.x = rset.getDouble("coordinate_x");
+            this.y = rset.getDouble("coordinate_y");
+            this.z = rset.getDouble("coordinate_z");
+        } catch (SQLException e) {
+            throw new SQLException("Could not read from resultSet: " + rset + ". " + e.getMessage());
+        }
+        assertClassInvariants();
+    }
 
     public double getX() throws IllegalStateException {
         assertClassInvariants();
@@ -50,7 +54,6 @@ public class CartesianCoordinate extends AbstractCoordinate  {
         assertClassInvariants();
         return z;
     }
-
 
     /**
      * subclass specific implementations of Coordinate Interface methods
@@ -74,7 +77,6 @@ public class CartesianCoordinate extends AbstractCoordinate  {
         return s;
     }
 
-
     protected double doGetCartesianDistance(CartesianCoordinate to) throws IllegalStateException, NullPointerException {
         assertClassInvariants();
         assertNotNull(to);
@@ -85,35 +87,6 @@ public class CartesianCoordinate extends AbstractCoordinate  {
         return distance;
     }
 
-
-    /**
-     * subclass specific implementations of DataObject methods
-     */
-    @Override
-    public void writeOn(ResultSet rset) throws IllegalStateException, NullPointerException, SQLException {
-        assertClassInvariants();
-        assertNotNull(rset);
-        try {
-            doWriteOn(rset, this.x, this.y, this.z);
-        } catch (SQLException e) {
-            throw new SQLException("Could write on resultSet: " + rset.toString() + ". " + e.getMessage());
-        }
-    }
-
-    @Override
-    public void readFrom(ResultSet rset) throws IllegalStateException, NullPointerException, SQLException {
-        assertClassInvariants();
-        assertNotNull(rset);
-        try {
-            this.x = rset.getDouble("coordinate_x");
-            this.y = rset.getDouble("coordinate_y");
-            this.z = rset.getDouble("coordinate_z");
-        } catch (SQLException e) {
-            throw new SQLException("Could not read from resultSet: " + rset + ". " + e.getMessage());
-        }
-        assertClassInvariants();
-    }
-
     @Override
     public boolean equals(Object obj) throws IllegalStateException, NullPointerException {
         assertClassInvariants();
@@ -121,10 +94,10 @@ public class CartesianCoordinate extends AbstractCoordinate  {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof CartesianCoordinate)) {
+        if (!(obj instanceof Coordinate)) {
             return false;
         }
-        return isEqual((CartesianCoordinate) obj);
+        return isEqual((Coordinate) obj);
     }
 
     @Override

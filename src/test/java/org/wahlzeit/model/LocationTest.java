@@ -1,7 +1,7 @@
 package org.wahlzeit.model;
 
 import org.junit.Test;
-import org.mockito.Mockito;
+import org.mockito.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,9 +14,7 @@ import static org.mockito.Mockito.verify;
  */
 public class LocationTest {
 
-    /**
-     *
-     */
+
     @Test
     public void testGetCoordinate() {
         Coordinate c = new CartesianCoordinate(0,0, 0);
@@ -24,22 +22,16 @@ public class LocationTest {
         assertTrue(loc.getCoordinate() == c);
     }
 
+
     @Test
     public void testSerialization() throws SQLException {
-        // ARRANGE
-        Coordinate coordinate = Mockito.mock(CartesianCoordinate.class);
         ResultSet rset = Mockito.mock(ResultSet.class);
-        Location location = new Location(coordinate);
+        Location location = Mockito.mock(Location.class);
 
-        // ACT
         location.writeOn(rset);
 
-        // ASSERT
-        verify(coordinate, Mockito.times(1)).writeOn(rset);
-
+        verify(location, Mockito.times(1)).writeOn(rset);
     }
-
-
 
 
 }

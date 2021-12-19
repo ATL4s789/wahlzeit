@@ -124,31 +124,30 @@ public class CoordinateTest {
 
     private void testEqualitySelf(Coordinate coordinate) {
         assertEquals(coordinate, coordinate);
-        assertTrue(coordinate.isEqual(coordinate));
     }
 
     private void testNoEquality(Coordinate coordinate1, Coordinate coordinate2) {
         assertNotEquals(coordinate1, coordinate2);
-        assertFalse(coordinate1.isEqual(coordinate2));
     }
 
     public void testEqualityFalseClass(Coordinate coordinate1, Coordinate coordinate2) {
         assertNotEquals(coordinate1, coordinate2);
     }
 
+
     @Test
-    public void testSerialization() throws SQLException {
-        // ARRANGE
-        CartesianCoordinate coordinate = new CartesianCoordinate(2, 3, 5);
-        ResultSet rset = Mockito.mock(ResultSet.class);
+    public void testValueObjects() {
+        Coordinate c1 = new CartesianCoordinate(1,1,1);
+        Coordinate c2 = new CartesianCoordinate(1,1,1);
+        assertTrue(c1.equals(c2));
 
-        // ACT
-        coordinate.writeOn(rset);
+        Coordinate s1 = new SphericCoordinate(0,0,0);
+        Coordinate s2 = new SphericCoordinate(0,0,0);
+        assertTrue(s1.equals(s2));
 
-        // ASSERT
-        verify(rset, Mockito.times(1)).updateDouble("coordinate_x", coordinate.getX());
-        verify(rset, Mockito.times(1)).updateDouble("coordinate_y", coordinate.getY());
-        verify(rset, Mockito.times(1)).updateDouble("coordinate_z", coordinate.getZ());
+        Coordinate c = new CartesianCoordinate(0,0,0);
+        assertTrue(s1.equals(c));
     }
+
 
 }

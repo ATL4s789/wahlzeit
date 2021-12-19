@@ -12,9 +12,6 @@ import java.sql.SQLException;
  */
 public class Location extends DataObject {
 
-    /**
-     *
-     */
     public Coordinate coordinate;
 
     /**
@@ -26,22 +23,47 @@ public class Location extends DataObject {
         incWriteCount();
     }
 
-    /**
-     * @methodtype constructor
-     */
-    public Location() {
-        this.coordinate = new CartesianCoordinate();
+    public Location(ResultSet rset) throws SQLException {
+        this.coordinate = new CartesianCoordinate(rset);
+        incWriteCount();
+    }
+
+
+    @Override
+    public void readFrom(ResultSet rset) throws SQLException {
+        assertNotNull(rset);
+        double x, y, z;
+        try {
+            x = rset.getDouble("coordinate_x");
+            y = rset.getDouble("coordinate_y");
+            z = rset.getDouble("coordinate_z");
+        } catch (SQLException e) {
+            throw new SQLException("Could not read from resultSet: " + rset + ". " + e.getMessage());
+        }
+        this.coordinate = new CartesianCoordinate(x, y, z);
         incWriteCount();
     }
 
     @Override
-    public void readFrom(ResultSet rset) throws SQLException {
-        this.coordinate.readFrom(rset);
+    public void writeOn(ResultSet rset) throws SQLException {
+        assertNotNull(rset);
+        double x = this.coordinate.asCartesianCoordinate().getX();
+        double y = this.coordinate.asCartesianCoordinate().getY();
+        double z = this.coordinate.asCartesianCoordinate().getZ();
+
+        try {
+            rset.updateDouble("coordinate_x", x);
+            rset.updateDouble("coordinate_y", y);
+            rset.updateDouble("coordinate_z", z);
+        } catch (SQLException e) {
+            throw new SQLException("Could write on resultSet: " + rset.toString() + ". " + e.getMessage());
+        }
     }
 
-    @Override
-    public void writeOn(ResultSet rset) throws SQLException {
-        this.coordinate.writeOn(rset);
+    private void assertNotNull(Object obj) throws NullPointerException {
+        if(obj == null) {
+            throw new NullPointerException("Argument is null");
+        }
     }
 
     @Override
@@ -51,10 +73,7 @@ public class Location extends DataObject {
 
     @Override
     public boolean isDirty() {
-        boolean selfDirty = this.writeCount != 0;
-        boolean coordinateDirty = this.coordinate.isDirty();
-
-        return selfDirty || coordinateDirty;
+        return this.writeCount != 0;
     }
 
     @Override
@@ -63,10 +82,20 @@ public class Location extends DataObject {
     }
 
     /**
+     * @methodtype set
+     */
+    public void setCoordinate(Coordinate coordinate) {
+        this.coordinate = coordinate;
+        incWriteCount();
+    }
+
+    /**
      * @methodtype get
      */
     public Coordinate getCoordinate() {
         return coordinate;
     }
+
+
 
 }

@@ -1,11 +1,7 @@
 package org.wahlzeit.model;
 
-import org.wahlzeit.services.*;
 
-import javax.naming.*;
-import java.sql.*;
-
-public abstract class AbstractCoordinate extends DataObject implements Coordinate {
+public abstract class AbstractCoordinate implements Coordinate {
 
     protected final double EPSILON = 0.001;
 
@@ -46,40 +42,7 @@ public abstract class AbstractCoordinate extends DataObject implements Coordinat
         boolean eqY = Math.abs(from.getY() - to.getY()) <= EPSILON;
         boolean eqZ = Math.abs(from.getZ() - to.getZ()) <= EPSILON;
 
-        assertClassInvariants();
         return eqX && eqY && eqZ;
-    }
-
-    protected void doWriteOn(ResultSet rset, double x, double y, double z) throws SQLException, NullPointerException, IllegalStateException {
-        assertClassInvariants();
-        assertNotNull(rset);
-        try {
-            rset.updateDouble("coordinate_x", x);
-            rset.updateDouble("coordinate_y", y);
-            rset.updateDouble("coordinate_z", z);
-        } catch (SQLException e) {
-            throw new SQLException("Could not create Photo from resultSet: " + rset.toString() + ". " + e.getMessage());
-        }
-        assertClassInvariants();
-    }
-
-    @Override
-    public boolean isDirty() throws IllegalStateException {
-        assertClassInvariants();
-        return this.writeCount != 0;
-    }
-
-    @Override
-    public void writeId(PreparedStatement stmt, int pos) throws IllegalStateException {
-        assertClassInvariants();
-        incWriteCount();
-        assertClassInvariants();
-    }
-
-    @Override
-    public String getIdAsString() throws IllegalStateException {
-        assertClassInvariants();
-        return ID;
     }
 
 }
