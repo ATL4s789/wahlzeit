@@ -30,8 +30,6 @@ public class CoordinateTest {
         testNoEquality(c1, c2);
         testNoEquality(s2, s1);
 
-        testEqualityFalseClass(c1, s1);
-        testEqualityFalseClass(s2, c2);
     }
 
     @Test
@@ -129,11 +127,6 @@ public class CoordinateTest {
     private void testNoEquality(Coordinate coordinate1, Coordinate coordinate2) {
         assertNotEquals(coordinate1, coordinate2);
     }
-
-    public void testEqualityFalseClass(Coordinate coordinate1, Coordinate coordinate2) {
-        assertNotEquals(coordinate1, coordinate2);
-    }
-
 
     @Test
     public void testValueObjects() {
