@@ -5,7 +5,10 @@
 
 package org.wahlzeit.webparts;
 
+import org.wahlzeit.model.*;
+
 import java.util.*;
+
 
 /**
  * A WebPartTmpl is a template for a WebPart.

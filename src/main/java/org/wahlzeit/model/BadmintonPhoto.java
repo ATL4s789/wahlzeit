@@ -3,6 +3,17 @@ package org.wahlzeit.model;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
+@Patterns(
+    patterns = {
+        @PatternInstance(
+            patternName = "AbstractFactory",
+            participants = {
+                "ConcreteProduct"
+            }
+        )
+    }
+)
 public class BadmintonPhoto extends Photo {
 
     private int players;

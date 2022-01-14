@@ -8,8 +8,19 @@ package org.wahlzeit.webparts;
 import java.util.*;
 import java.io.*;
 
+import org.wahlzeit.model.*;
 import org.wahlzeit.utils.*;
 
+@Patterns(
+		patterns =  {
+				@PatternInstance(
+						patternName = "Composite",
+						participants = {
+								"Composite", "Component", "Leaf"
+						}
+				)
+		}
+)
 /**
  * A WebPart is a Writable formatted as HTML, working off a template.
  * A WebPart has its data set from a client using key/value pairs.

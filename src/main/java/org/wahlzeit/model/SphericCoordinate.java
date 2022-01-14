@@ -3,6 +3,17 @@ package org.wahlzeit.model;
 import java.sql.*;
 import java.util.*;
 
+
+@Patterns(
+        patterns = {
+                @PatternInstance(
+                        patternName = "Flyweight",
+                        participants = {
+                                "Flyweight"
+                        }
+                )
+        }
+)
 /**
  * Coordinates in the 3-dimensional spherical (longitude, latitude, radius) system
  * This class assumes the polar axis is the z-axis, and the equatorial plane is

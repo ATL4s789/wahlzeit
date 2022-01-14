@@ -3,6 +3,29 @@ package org.wahlzeit.model;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
+@Patterns(
+    patterns = {
+        @PatternInstance(
+            patternName = "Singleton",
+            participants = {
+                "Singleton"
+            }
+        ),
+        @PatternInstance(
+                patternName = "Facade",
+                participants = "Facade"
+        ),
+        @PatternInstance(
+                patternName = "Proxy",
+                participants = "Proxy"
+        ),
+        @PatternInstance(
+                patternName = "Adapter",
+                participants = "Adapter"
+        )
+    }
+)
 public class BadmintonPhotoManager extends PhotoManager {
 
 

@@ -11,6 +11,16 @@ import java.net.*;
 import org.wahlzeit.services.*;
 import org.wahlzeit.utils.*;
 
+@Patterns(
+	patterns = {
+		@PatternInstance(
+			patternName = "AbstractFactory",
+			participants = {
+				"AbstractProduct", "ConcreteProduct"
+			}
+		)
+	}
+)
 /**
  * A photo represents a user-provided (uploaded) photo.
  */

@@ -6,6 +6,17 @@ import java.sql.SQLException;
 import java.lang.Math;
 import java.util.Objects;
 
+
+@Patterns(
+        patterns = {
+                @PatternInstance(
+                        patternName = "Flyweight",
+                        participants = {
+                                "Flyweight"
+                        }
+                )
+        }
+)
 /**
  * Coordinates in the 3-dimensional cartesian (x,y,z) system
  */
