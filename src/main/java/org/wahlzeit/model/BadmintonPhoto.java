@@ -16,6 +16,8 @@ import java.sql.SQLException;
 )
 public class BadmintonPhoto extends Photo {
 
+    public BadmintonGame game;
+
     private int players;
 
     /**
