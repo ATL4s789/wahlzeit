@@ -25,12 +25,12 @@ public class BadmintonPhotoFactory extends PhotoFactory {
     /**
      * Hidden singleton instance; needs to be initialized from the outside.
      */
-    private static PhotoFactory instance = null;
+    private static BadmintonPhotoFactory instance = null;
 
     /**
      * Public singleton access method.
      */
-    public static synchronized PhotoFactory getInstance() {
+    public static synchronized BadmintonPhotoFactory getInstance() {
         if (instance == null) {
             SysLog.logSysInfo("Setting BadmintonPhotoFactory");
             setInstance(new BadmintonPhotoFactory());
@@ -59,24 +59,19 @@ public class BadmintonPhotoFactory extends PhotoFactory {
     /**
      * @methodtype factory
      */
-    public Photo createPhoto() {
+    public BadmintonPhoto createPhoto() {
         return new BadmintonPhoto();
     }
 
 
-    public Photo createPhoto(PhotoId id) {
+    public BadmintonPhoto createPhoto(PhotoId id) {
         return new BadmintonPhoto(id);
     }
 
-
-    public Photo createPhoto(ResultSet rs) throws SQLException {
-        Photo photo;
-        try {
-            photo = BadmintonPhotoFactory.getInstance().createPhoto(rs);
-        } catch (SQLException e) {
-            throw new SQLException("Could not create Photo from resultSet: " + rs.toString() + ". " + e.getMessage());
-        }
-        return photo;
+    // Call from BadmintonPhotoManager
+    // Call to BadmintonPhoto
+    public BadmintonPhoto createPhoto(ResultSet rs) throws SQLException {
+        return new BadmintonPhoto(rs);
     }
 
 }

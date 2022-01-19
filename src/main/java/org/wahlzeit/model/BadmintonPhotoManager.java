@@ -28,7 +28,6 @@ import java.sql.SQLException;
 )
 public class BadmintonPhotoManager extends PhotoManager {
 
-
     protected static final BadmintonPhotoManager instance = new BadmintonPhotoManager();
 
 
@@ -36,16 +35,16 @@ public class BadmintonPhotoManager extends PhotoManager {
         photoTagCollector = BadmintonPhotoFactory.getInstance().createPhotoTagCollector();
     }
 
-
     public static BadmintonPhotoManager getInstance() {
         return instance;
     }
 
-
+    // Call from Client
+    // Call to BadmintonPhotoFactory
     protected Photo createObject(ResultSet rset) throws SQLException {
         Photo photo;
         try {
-             photo = BadmintonPhotoFactory.getInstance().createPhoto(rset);
+            photo = BadmintonPhotoFactory.getInstance().createPhoto(rset);
         } catch (SQLException e) {
             throw new SQLException("Could not create Photo from resultSet: " + rset.toString() + ". " + e.getMessage());
         }

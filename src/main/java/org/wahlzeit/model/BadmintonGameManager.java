@@ -4,8 +4,17 @@ import java.util.*;
 
 public class BadmintonGameManager {
 
+    protected static final BadmintonGameManager instance = new BadmintonGameManager();
+
     private HashMap<Integer, BadmintonGame> badmintonGames = new HashMap<>();
 
+
+    public static BadmintonGameManager getInstance() {
+        return instance;
+    }
+
+    // Call from Client
+    // Call to BadmintonGameType
     public BadmintonGame createBadmintonGame(String typeName) {
         assertIsValidBadmintonGameTypeName(typeName);
         BadmintonGameType bgt = getBadmintonGameType(typeName);

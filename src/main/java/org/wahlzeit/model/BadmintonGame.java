@@ -8,6 +8,7 @@ public class BadmintonGame {
     private Location tournamentLocation;
     private String tournamentDate;
 
+    // Call from BadmintonGame
     public BadmintonGame(BadmintonGameType discipline) {
         this.discipline = discipline;
     }

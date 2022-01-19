@@ -38,6 +38,8 @@ public class BadmintonPhoto extends Photo {
      *
      * @methodtype constructor
      */
+    // Call from BadmintonPhotoFactory
+    // Call to Photo
     public BadmintonPhoto(ResultSet rset) throws SQLException {
         super(rset);
     }

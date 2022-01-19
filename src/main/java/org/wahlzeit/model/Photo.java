@@ -126,6 +126,7 @@ public class Photo extends DataObject {
 	 * 
 	 * @methodtype constructor
 	 */
+	// Call from BadmintonPhoto
 	public Photo(ResultSet rset) throws SQLException {
 		readFrom(rset);
 	}
@@ -148,6 +149,8 @@ public class Photo extends DataObject {
 	/**
 	 * 
 	 */
+	// Call from Photo
+	// Calls to PhotoId/EmailAddress/Language/StringUtil/Tags/PhotoStatus/PhotoSize/Location
 	public void readFrom(ResultSet rset) throws SQLException {
 		id = PhotoId.getIdFromInt(rset.getInt("id"));
 

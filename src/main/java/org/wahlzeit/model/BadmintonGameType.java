@@ -8,6 +8,8 @@ public class BadmintonGameType {
         this.name = name;
     }
 
+    // Call from BadmintonGameManager
+    // Call to BadmintonGame
     public BadmintonGame createInstance() {
         return new BadmintonGame(this);
     }
