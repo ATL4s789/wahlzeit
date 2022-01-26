@@ -1,0 +1,43 @@
+public collaboration ObjectPhoto {
+  public role Object {
+    // minimal Constructor with Type
+    // Constructor with all attributes
+    // Getter & Setter
+    public int getID();
+  }
+
+  public role Photo {
+
+  }
+}
+
+public collaboration ObjectType {
+  public role Object {
+    // minimal Constructor with Type
+    // Constructor with all attributes
+    // Getter & Setter
+    public int getID();
+  }
+
+  public role Type {
+    String name;
+    // plus Getter
+    public Object createInstance();
+    public boolean isSubtype();
+  }
+}
+
+public collaboration ObjectManager {
+  public role Object {
+    // minimal Constructor with Type
+    // Constructor with all attributes
+    // Getter & Setter
+    public int getID();
+  }
+
+  public role Manager {
+    public Manager getInstance();
+    public Object createObject(String typeName);
+    public Type getType(String typeName);
+  }
+}

@@ -15,15 +15,15 @@ public class BadmintonGameManager {
 
     // Call from Client
     // Call to BadmintonGameType
-    public BadmintonGame createBadmintonGame(String typeName) {
+    public BadmintonGame createObject(String typeName) {
         assertIsValidBadmintonGameTypeName(typeName);
-        BadmintonGameType bgt = getBadmintonGameType(typeName);
+        BadmintonGameType bgt = getType(typeName);
         BadmintonGame result = bgt.createInstance();
         badmintonGames.put(result.getID(), result);
         return result;
     }
 
-    private BadmintonGameType getBadmintonGameType(String typeName) {
+    private BadmintonGameType getType(String typeName) {
         return new BadmintonGameType(typeName);
     }
 
